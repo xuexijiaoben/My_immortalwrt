@@ -73,6 +73,9 @@ echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main"
 # echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
 echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
 
+\rm -rf feeds/ssrplus/mosdns
+\rm -rf feeds/packages/net/mosdns
+# \rm -rf feeds/luci/applications/luci-app-mosdns feeds/packages/utils/v2dat
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
