@@ -38,13 +38,13 @@ merge_package main https://github.com/kenzok8/small-package package luci-app-adg
 # merge_package master https://github.com/v2rayA/v2raya-openwrt package luci-app-v2raya v2raya 
 
 
-# echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
+echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
 echo 'src-git lucky https://github.com/sirpdboy/luci-app-lucky.git' >>feeds.conf.default
-# echo 'src-git ddnsgo https://github.com/sirpdboy/luci-app-ddns-go.git' >>feeds.conf.default
+echo 'src-git ddnsgo https://github.com/sirpdboy/luci-app-ddns-go.git' >>feeds.conf.default
 git clone --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/luci-app-autotimeset
 git clone --depth 1 https://github.com/sirpdboy/luci-app-advancedplus.git package/luci-app-advancedplus
-# git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
+git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
 
 
 # Add a feed source
@@ -70,7 +70,7 @@ git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/l
 # echo 'src-git openclash https://github.com/vernesong/OpenClash.git;dev' >>feeds.conf.default
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
-# echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
+echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
 echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
 
 ./scripts/feeds update -a
@@ -78,6 +78,10 @@ echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.co
 \rm -rf feeds/ssrplus/mosdns
 \rm -rf feeds/packages/net/mosdns
 # \rm -rf feeds/luci/applications/luci-app-mosdns feeds/packages/utils/v2dat
+\rm -rf feeds/luci/applications/luci-app-passwall
+\rm -rf feeds/luci/applications/luci-app-ddns-go
+\rm -rf feeds/luci/applications/luci-app-alist
+\rm -rf feeds/luci/applications/luci-app-unblockneteasemusic
 
 ./scripts/feeds install -a
 
