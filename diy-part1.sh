@@ -31,25 +31,26 @@ function merge_package(){
     cd "$rootdir"
 }
 
-merge_package main https://github.com/kenzok8/small-package package luci-app-adguardhome
+merge_package main https://github.com/kenzok8/small-package package/app luci-app-adguardhome
+merge_package master https://github.com/coolsnowwolf/luci package/app applications/luci-app-unblockmusic
 # bypass
-# merge_package master https://github.com/kiddin9/openwrt-packages package luci-app-bypass lua-neturl redsocks2
+# merge_package master https://github.com/kiddin9/openwrt-packages package/app luci-app-bypass lua-neturl redsocks2
 # v2raya
-# merge_package master https://github.com/v2rayA/v2raya-openwrt package luci-app-v2raya v2raya 
+# merge_package master https://github.com/v2rayA/v2raya-openwrt package/app luci-app-v2raya v2raya 
 
 
 echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
 echo 'src-git lucky https://github.com/sirpdboy/luci-app-lucky.git' >>feeds.conf.default
 echo 'src-git ddnsgo https://github.com/sirpdboy/luci-app-ddns-go.git' >>feeds.conf.default
-git clone --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/luci-app-autotimeset
-git clone --depth 1 https://github.com/sirpdboy/luci-app-advancedplus.git package/luci-app-advancedplus
-git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
+git clone --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/app/luci-app-autotimeset
+git clone --depth 1 https://github.com/sirpdboy/luci-app-advancedplus.git package/app/luci-app-advancedplus
+git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/app/luci-app-unblockneteasemusic
 
 
 # Add a feed source
 # 添加额外软件包
-# git clone --depth 1  https://github.com/ilxp/luci-app-ikoolproxy.git package/luci-app-ikoolproxy
+# git clone --depth 1  https://github.com/ilxp/luci-app-ikoolproxy.git package/app/luci-app-ikoolproxy
 echo 'src-git cdnspeedtest https://github.com/immortalwrt-collections/openwrt-cdnspeedtest.git' >>feeds.conf.default
 echo 'src-git cloudflarespeedtest https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest.git' >>feeds.conf.default
 
@@ -64,8 +65,8 @@ echo 'src-git nas_luci https://github.com/linkease/nas-packages-luci.git;main' >
 # drop mosdns and v2ray-geodata packages that come with the source
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 # find ./ | grep Makefile | grep mosdns | xargs rm -f
-git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/app/mosdns
+# git clone https://github.com/sbwml/v2ray-geodata package/app/v2ray-geodata
 
 # echo 'src-git openclash https://github.com/vernesong/OpenClash.git;dev' >>feeds.conf.default
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
