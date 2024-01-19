@@ -61,7 +61,7 @@ sed -i 's/做事先做人，尊重他人劳动成果，是为人的基本准则�
 sed -i "s|amlogic_firmware_repo.*|amlogic_firmware_repo 'https://github.com/xuexijiaoben/My_immortalwrt'|g" feeds/amlogic/luci-app-amlogic/root/etc/config/amlogic
 
 # 2.设置 Releases 里 Tags 的关键字
-sed -i "s|ARMv8|armvirt|g" feeds/amlogic/luci-app-amlogic/root/etc/config/amlogic
+sed -i "s|ARMv8|armsr|g" feeds/amlogic/luci-app-amlogic/root/etc/config/amlogic
 
 # 3.设置 Releases 里 OpenWrt 文件的后缀
 # sed -i "s|.img.gz|.OPENWRT_SUFFIX|g" feeds/amlogic/luci-app-amlogic/root/etc/config/amlogic
@@ -72,7 +72,7 @@ sed -i "s|amlogic_kernel_path.*|amlogic_kernel_path 'https://github.com/breaking
 
 # Add autocore support for armvirt
 # sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/emortal/autocore/Makefile
-sed -i 's/DEPENDS:=@(.*/DEPENDS:=@(TARGET_bcm27xx||TARGET_bcm53xx||TARGET_ipq40xx||TARGET_ipq806x||TARGET_ipq807x||TARGET_mvebu||TARGET_rockchip||TARGET_armvirt) \\/g' package/emortal/autocore/Makefile
+# sed -i 's/DEPENDS:=@(.*/DEPENDS:=@(TARGET_bcm27xx||TARGET_bcm53xx||TARGET_ipq40xx||TARGET_ipq806x||TARGET_ipq807x||TARGET_mvebu||TARGET_rockchip||TARGET_armvirt||TARGET_armsr) \\/g' package/emortal/autocore/Makefile
 
 # 编译 po2lmo (如果有po2lmo可跳过)
 # pushd feeds/openclash/luci-app-openclash/tools/po2lmo
