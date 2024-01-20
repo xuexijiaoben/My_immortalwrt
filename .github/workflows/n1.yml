@@ -32,6 +32,7 @@ env:
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
+  OPENWRT_TAG: armsr_ARMv8
 
 jobs:
   build:
@@ -174,7 +175,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j1 V=s || make -j1 || make -j$(nproc)
         echo "status=success" >> ${GITHUB_OUTPUT}
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
@@ -236,8 +237,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        # name:  R${{ env.DATE }} for ${{ env.PRODUCT_NAME }}
-        tag: openwrt_armsr_ARMv8_${{ env.PACKAGED_OUTPUTDATE }}_from_n1_${{ env.EMOJI }}
+        name:  R${{ env.DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_${{ env.EMOJI }}
+        tag: ${{ env.OPENWRT_TAG }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         #token: ${{ secrets.GH_TOKEN }}
