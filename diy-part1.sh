@@ -32,7 +32,7 @@ function merge_package(){
 }
 
 merge_package main https://github.com/kenzok8/small-package package/app luci-app-adguardhome
-merge_package master https://github.com/coolsnowwolf/luci package/app applications/luci-app-unblockmusic
+# merge_package master https://github.com/coolsnowwolf/luci package/app applications/luci-app-unblockmusic
 # bypass
 # merge_package master https://github.com/kiddin9/openwrt-packages package/app luci-app-bypass lua-neturl redsocks2
 # v2raya
