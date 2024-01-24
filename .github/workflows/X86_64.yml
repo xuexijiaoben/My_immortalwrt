@@ -280,7 +280,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag: ${{ steps.tag.outputs.release_tag }}_${{ env.EMOJI }}
+        name: ${{ steps.tag.outputs.release_tag }}_${{ env.EMOJI }}
+        tag: x86-64
         bodyFile: "release.txt"
         artifacts: ${{ env.FIRMWARE }}/*
 
