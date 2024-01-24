@@ -207,12 +207,12 @@ jobs:
         rm -rf packages feeds.buildinfo version.buildinfo
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
     
-    - name: Upload Firmware To Artifact
-      if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
-      uses: actions/upload-artifact@main
-      with:
-        name: ${{ env.SOURCE_REPO }}-firmware-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}-${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE_PATH }}
+    # - name: Upload Firmware To Artifact
+    #   if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
+    #   uses: actions/upload-artifact@main
+    #   with:
+    #     name: ${{ env.SOURCE_REPO }}-firmware-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}-${{ env.FILE_DATE }}
+    #     path: ${{ env.FIRMWARE_PATH }}
 
     - name: Upload Firmware To Release
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
@@ -288,11 +288,11 @@ jobs:
         WHOAMI: huoleifeng
         DISTRIB_REVISION: R${{ env.DATE1 }} by HuoLeifeng
         
-    - name: Upload OpenWrt To Artifact
-      if: env.PACKAGED_STATUS == 'success' && env.OPENWRT_RELEASE != 'true'
-      uses: kittaakos/upload-artifact-as-is@master
-      with:
-        path: ${{ env.PACKAGED_OUTPUTPATH }}
+    # - name: Upload OpenWrt To Artifact
+    #   if: env.PACKAGED_STATUS == 'success' && env.OPENWRT_RELEASE != 'true'
+    #   uses: kittaakos/upload-artifact-as-is@master
+    #   with:
+    #     path: ${{ env.PACKAGED_OUTPUTPATH }}
     
     - name: Upload OpenWrt Firmware to Release
       if: env.PACKAGED_STATUS == 'success' && env.OPENWRT_RELEASE == 'true'
