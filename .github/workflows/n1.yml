@@ -25,14 +25,14 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: N1_m.config
+  CONFIG_FILE: N1_small.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  OPENWRT_TAG: armsr_ARMv8
+  OPENWRT_TAG: ARMv8_armsr
 
 jobs:
   build:
@@ -223,7 +223,7 @@ jobs:
       uses: unifreq/openwrt_packit@master
       # uses: ophub/flippy-openwrt-actions@main
       env:
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
         KERNEL_REPO_URL: breakings/OpenWrt
         KERNEL_VERSION_NAME: 5.15.131_6.1.53
         KERNEL_AUTO_LATEST: true
