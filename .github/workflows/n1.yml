@@ -234,7 +234,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Upload OpenWrt Firmware to Release
-      uses: ncipollo/release-action@main
+      uses: ncipollo/release-action@v1.13.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
