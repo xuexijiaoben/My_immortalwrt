@@ -216,7 +216,7 @@ jobs:
 
     - name: Upload Firmware To Release
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.13.0
       with:
         name: ${{ env.DATE }} for ${{ env.FIRMWARE_TAG }} ${{ env.EMOJI }}
         allowUpdates: true
@@ -296,7 +296,7 @@ jobs:
     
     - name: Upload OpenWrt Firmware to Release
       if: env.PACKAGED_STATUS == 'success' && env.OPENWRT_RELEASE == 'true'
-      uses: ncipollo/release-action@main
+      uses: ncipollo/release-action@v1.13.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
