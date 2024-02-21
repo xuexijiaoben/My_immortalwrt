@@ -145,8 +145,9 @@ jobs:
         sudo -E systemctl daemon-reload
         sudo -E apt clean
         sudo timedatectl set-timezone "$TZ"
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
+        # sudo mkdir -p /workdir
+        # sudo chown $USER:$GROUPS /workdir
+        sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
         # echo "status=success" >> ${GITHUB_OUTPUT}
         # df -Th
     
@@ -156,7 +157,7 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # 利用挂载在 /mnt/ 的 14G 额外空间:
         # sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
         # ln -s /mnt/openwrt/dl /workdir/openwrt/dl
