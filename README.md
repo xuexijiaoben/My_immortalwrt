@@ -4,6 +4,7 @@ https://github.com/immortalwrt/immortalwrt
 学习，硬盘合并、硬件信息等
 
 https://github.com/chenmozhijin/OpenWrt-K
+https://github.com/dzlea/ActionsBuildOpenWRT
 
 兼容firewall4列表
 
