@@ -153,7 +153,8 @@ jobs:
     
     - name: Clone source code
       id: clone
-      working-directory: /workdir
+      # working-directory: /workdir
+      working-directory: ./
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
