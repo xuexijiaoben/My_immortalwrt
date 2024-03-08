@@ -10,6 +10,9 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
+# 修复编译错误
+sed -i 's/CGO_ENABLED=0/CGO_ENABLED=1/g' package/app/cdnspeedtest/Makefile
+
 # 1.修改默认ip
 sed -i 's/192.168.1.1/192.168.2.3/g' package/base-files/files/bin/config_generate
 
