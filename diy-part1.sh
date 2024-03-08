@@ -42,7 +42,9 @@ merge_package main https://github.com/kenzok8/small-package package/app luci-app
 # merge_package master https://github.com/kiddin9/openwrt-packages package/app luci-app-bypass lua-neturl redsocks2
 # v2raya
 # merge_package master https://github.com/v2rayA/v2raya-openwrt package/app luci-app-v2raya v2raya 
-
+merge_package main https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest package/app applications/luci-app-cloudflarespeedtest
+merge_package master https://github.com/immortalwrt-collections/openwrt-cdnspeedtest package/app cdnspeedtest
+merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-mosdns mosdns v2dat
 
 echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
@@ -56,8 +58,6 @@ git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unbloc
 # Add a feed source
 # 添加额外软件包
 git clone --depth 1  https://github.com/ilxp/luci-app-ikoolproxy.git package/app/luci-app-ikoolproxy
-echo 'src-git cdnspeedtest https://github.com/immortalwrt-collections/openwrt-cdnspeedtest.git' >>feeds.conf.default
-echo 'src-git cloudflarespeedtest https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest.git' >>feeds.conf.default
 
 # 仿istore
 echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.default
@@ -70,8 +70,6 @@ echo 'src-git nas_luci https://github.com/linkease/nas-packages-luci.git;main' >
 # drop mosdns and v2ray-geodata packages that come with the source
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 # find ./ | grep Makefile | grep mosdns | xargs rm -f
-git clone -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns.git package/app/mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/app/v2ray-geodata
 
 # echo 'src-git openclash https://github.com/vernesong/OpenClash.git;dev' >>feeds.conf.default
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
