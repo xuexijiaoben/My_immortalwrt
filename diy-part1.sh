@@ -78,7 +78,7 @@ echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >
 echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
 
 ./scripts/feeds update -a
-
+\rm -rf feeds/packages/net/cdnspeedtest
 \rm -rf feeds/ssrplus/mosdns
 \rm -rf feeds/packages/net/mosdns
 # \rm -rf feeds/luci/applications/luci-app-mosdns feeds/packages/utils/v2dat
