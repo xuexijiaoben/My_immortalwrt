@@ -38,7 +38,7 @@ sed -i "s/luci-static\/bootstrap/luci-static\/alpha/g" feeds/luci/modules/luci-b
 sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=65535' package/base-files/files/etc/sysctl.conf
 
 # 修改kucat标语，来自于sirpdboy
-sed -i 's/做事先做人，尊重他人劳动成果，是为人的基本准则！/Happy Every Day from sirpdboy,Best Regards!/g' feeds/luci/themes/luci-theme-kucat/htdocs/luci-static/kucat/img/logoword
+# sed -i 's/做事先做人，尊重他人劳动成果，是为人的基本准则！/Happy Every Day from sirpdboy,Best Regards!/g' feeds/luci/themes/luci-theme-kucat/htdocs/luci-static/kucat/img/logoword
 # feeds/luci/themes/luci-theme-kucat/htdocs/luci-static/kucat/img/logourl
 
 # 替换终端为bash
