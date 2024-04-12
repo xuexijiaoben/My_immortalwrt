@@ -1,6 +1,14 @@
 https://github.com/immortalwrt/immortalwrt
 
 
+升级降级方法统一为：
+1. 把 update-xxxxxx-openwrt.sh 及解压后得到的 img 镜像上传至 /mnt/mmcblk2p4
+2. cd /mnt/mmcblk2p4
+3. chmod 755 update-amlogic-openwrt.sh
+4. ./update-amlogic-openwrt.sh ./openwrt*.img
+5. 升级脚本为`update-amlogic-openwrt.sh` [点这里跳转](https://github.com/HoldOnBro/Actions-OpenWrt/releases/tag/ARMv8)
+
+
 学习，硬盘合并、硬件信息等
 
 https://github.com/chenmozhijin/OpenWrt-K
