@@ -17,7 +17,7 @@ sed -i 's/CGO_ENABLED=0/CGO_ENABLED=1/g' package/app/cdnspeedtest/Makefile
 sed -i 's/192.168.1.1/192.168.2.3/g' package/base-files/files/bin/config_generate
 
 # 2.修改主机名
-sed -i 's/OpenWrt/Phicomm_N1/g' package/base-files/files/bin/config_generate
+sed -i 's/immortalwrt/Phicomm_N1/g' package/base-files/files/bin/config_generate
 
 # 4.修改版本号
 # sed -i "s/OpenWrt /0012h build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" package/lean/default-settings/files/zzz-default-settings
