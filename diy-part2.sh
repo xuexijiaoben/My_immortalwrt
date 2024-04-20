@@ -29,7 +29,7 @@ sed -i 's/OpenWrt/Phicomm_N1/g' package/base-files/files/bin/config_generate
 # 或
 # default_theme='alpha'
 # sed -i "s/bootstrap/$default_theme/g" feeds/luci/modules/luci-base/root/etc/config/luci
-sed -i "s/luci-static\/bootstrap/luci-static\/alpha/g" feeds/luci/modules/luci-base/root/etc/config/luci
+sed -i "s/luci-static\/bootstrap/luci-static\/argon/g" feeds/luci/modules/luci-base/root/etc/config/luci
 
 # 6.设置ttyd免登录
 # sed -i 's/\/bin\/login/\/bin\/login -f root/' /etc/config/ttyd
