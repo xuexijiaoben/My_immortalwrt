@@ -50,7 +50,7 @@ sed -i '/customized in this file/a net.netfilter.nf_conntrack_max=65535' package
 # 禁用wifi
 sed -i 's/disabled=0/disabled=1/g' package/network/config/wifi-scripts/files/lib/wifi/mac80211.sh
 # 修改wifi名字
-sed -i 's/ssid=ImmortalWrt/ssid=N1-ImmortalWrt' package/network/config/wifi-scripts/files/lib/wifi/mac80211.sh
+sed -i 's/ssid=ImmortalWrt/ssid=N1-ImmortalWrt/' package/network/config/wifi-scripts/files/lib/wifi/mac80211.sh
 
 # 修改本地时间格式
 # sed -i 's/os.date()/os.date("%a %Y-%m-%d %H:%M:%S")/g' package/lean/autocore/files/*/index.htm
