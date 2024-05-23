@@ -90,6 +90,9 @@ echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.co
 
 ./scripts/feeds install -a
 
+# 修复feeds错误
+sed -i 's/+libpcre/+libpcre2/g' package/feeds/telephony/freeswitch/Makefile
+
 # 主题
 git clone https://github.com/thinktip/luci-theme-neobird.git feeds/luci/themes/luci-theme-neobird
 git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git feeds/luci/themes/luci-theme-opentomcat
