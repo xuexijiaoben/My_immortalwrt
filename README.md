@@ -1,5 +1,6 @@
 https://github.com/immortalwrt/immortalwrt
 
+gecoosac(https://www.right.com.cn/FORUM/thread-8379292-1-1.html)
 
 升级降级方法统一为：
 1. 把 update-xxxxxx-openwrt.sh 及解压后得到的 img 镜像上传至 /mnt/mmcblk2p4
