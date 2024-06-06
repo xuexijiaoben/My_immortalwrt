@@ -45,6 +45,7 @@ merge_package main https://github.com/kenzok8/small-package package/app luci-app
 merge_package main https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest package/app applications/luci-app-cloudflarespeedtest
 merge_package master https://github.com/immortalwrt-collections/openwrt-cdnspeedtest package/app cdnspeedtest
 merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-mosdns mosdns v2dat
+merge_package main https://github.com/xuexijiaoben/My_immortalwrt package/app luci-app-gecoosac
 
 echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
@@ -77,6 +78,10 @@ echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-pa
 echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
 echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
+
+mkdir -p files/etc/gecoosac
+wget -P files/etc/gecoosac https://raw.githubusercontent.com/xuexijiaoben/My_immortalwrt/main/ac_linux_arm64
+chmod -R 755 files
 
 ./scripts/feeds update -a
 \rm -rf feeds/packages/net/cdnspeedtest
