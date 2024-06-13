@@ -86,6 +86,7 @@ chmod -R 755 files
 sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/config/gecoosac
 # sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
 # sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/luasrc/model/cbi/gecoosac.lua
+chmod 755 package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
 
 ./scripts/feeds update -a
 \rm -rf feeds/packages/net/cdnspeedtest
