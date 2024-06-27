@@ -121,5 +121,5 @@ git clone https://github.com/jerrykuku/luci-app-argon-config.git feeds/luci/appl
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
