@@ -46,7 +46,7 @@ merge_package main https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest pa
 merge_package master https://github.com/immortalwrt-collections/openwrt-cdnspeedtest package/app cdnspeedtest
 merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-mosdns mosdns v2dat
 merge_package main https://github.com/xuexijiaoben/My_immortalwrt package/app luci-app-gecoosac
-merge_package master https://github.com/coolsnowwolf/luci package/app applications/luci-app-easymesh
+
 
 echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
@@ -105,6 +105,7 @@ rm -rf feeds/luci/applications/luci-app-openclash
 
 merge_package openwrt-23.05 https://github.com/coolsnowwolf/luci feeds/luci/applications applications/luci-app-pppwn
 merge_package master https://github.com/coolsnowwolf/packages feeds/packages/multimedia multimedia/pppwn-cpp
+merge_package master https://github.com/coolsnowwolf/luci feeds/luci/applications applications/luci-app-easymesh
 
 ./scripts/feeds install -a
 
