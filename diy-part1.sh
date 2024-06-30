@@ -73,7 +73,9 @@ echo 'src-git nas_luci https://github.com/linkease/nas-packages-luci.git;main' >
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 # find ./ | grep Makefile | grep mosdns | xargs rm -f
 
+merge_package dev https://github.com/vernesong/OpenClash package/app luci-app-openclash
 # echo 'src-git openclash https://github.com/vernesong/OpenClash.git;dev' >>feeds.conf.default
+
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
@@ -97,6 +99,8 @@ chmod 755 package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
 # \rm -rf feeds/luci/applications/luci-app-ddns-go
 \rm -rf feeds/luci/applications/luci-app-alist
 \rm -rf feeds/luci/applications/luci-app-unblockneteasemusic
+
+rm -rf feeds/luci/applications/luci-app-openclash
 
 merge_package openwrt-23.05 https://github.com/coolsnowwolf/luci feeds/luci/applications applications/luci-app-pppwn
 merge_package master https://github.com/coolsnowwolf/packages feeds/packages/multimedia multimedia/pppwn-cpp
