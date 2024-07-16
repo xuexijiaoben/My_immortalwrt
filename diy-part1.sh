@@ -46,7 +46,17 @@ merge_package main https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest pa
 merge_package master https://github.com/immortalwrt-collections/openwrt-cdnspeedtest package/app cdnspeedtest
 merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-mosdns mosdns v2dat
 
+# 集客AC
 # merge_package main https://github.com/xuexijiaoben/My_immortalwrt package/app luci-app-gecoosac
+# mkdir -p files/etc/gecoosac
+# wget -P files/etc/gecoosac https://raw.githubusercontent.com/xuexijiaoben/My_immortalwrt/main/ac_linux_arm64
+## wget -P files/etc/gecoosac https://raw.githubusercontent.com/xuexijiaoben/My_immortalwrt/main/ac_linux_amd64
+# chmod -R 755 files
+# sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/config/gecoosac
+## sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
+## sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/luasrc/model/cbi/gecoosac.lua
+# chmod 755 package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
+
 merge_package main https://github.com/lwb1978/openwrt-gecoosac package/app luci-app-gecoosac
 merge_package main https://github.com/lwb1978/openwrt-gecoosac package/app gecoosac
 
@@ -58,7 +68,6 @@ echo 'src-git lucky https://github.com/gdy666/luci-app-lucky.git' >>feeds.conf.d
 git clone --depth 1 https://github.com/sirpdboy/luci-app-autotimeset.git package/app/luci-app-autotimeset
 git clone --depth 1 https://github.com/sirpdboy/luci-app-advancedplus.git package/app/luci-app-advancedplus
 git clone -b js --depth 1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/app/luci-app-unblockneteasemusic
-
 
 # Add a feed source
 # 添加额外软件包
@@ -81,14 +90,6 @@ echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main"
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
 echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
 
-mkdir -p files/etc/gecoosac
-wget -P files/etc/gecoosac https://github.com/lwb1978/openwrt-gecoosac/releases/download/V2.1/ac_linux_arm64
-# wget -P files/etc/gecoosac https://github.com/lwb1978/openwrt-gecoosac/releases/download/V2.1/ac_linux_amd64
-chmod -R 755 files
-sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/config/gecoosac
-# sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
-# sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/luasrc/model/cbi/gecoosac.lua
-chmod 755 package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
 
 # 开发版openclash
 merge_package dev https://github.com/vernesong/OpenClash package/app luci-app-openclash
@@ -138,5 +139,5 @@ git clone https://github.com/jerrykuku/luci-app-argon-config.git feeds/luci/appl
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
