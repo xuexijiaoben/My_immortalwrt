@@ -115,7 +115,8 @@ chmod +x package/app/luci-app-openclash/root/etc/openclash/core/clash*
 
 rm -rf feeds/luci/applications/luci-app-openclash
 rm feeds/packages/net/shadowsocks-rust/Makefile
-cp feeds/passwall_packages/shadowsocks-rust/Makefile feeds/packages/net/shadowsocks-rust
+# cp feeds/passwall_packages/shadowsocks-rust/Makefile feeds/packages/net/shadowsocks-rust
+wget -P feeds/packages/net/shadowsocks-rust https://raw.githubusercontent.com/kenzok8/small-package/main/shadowsocks-rust/Makefile
 
 merge_package openwrt-23.05 https://github.com/coolsnowwolf/luci feeds/luci/applications applications/luci-app-pppwn
 merge_package master https://github.com/coolsnowwolf/packages feeds/packages/multimedia multimedia/pppwn-cpp
