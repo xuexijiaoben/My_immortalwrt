@@ -129,6 +129,10 @@ rm package/network/services/umdns/files/umdns.json
 wget -P package/network/services/umdns/files https://raw.githubusercontent.com/openwrt/openwrt/main/package/network/services/umdns/files/umdns.init
 wget -P package/network/services/umdns/files https://raw.githubusercontent.com/openwrt/openwrt/main/package/network/services/umdns/files/umdns.json
 
+# temporary fix Ruby 3.3.3 ERROR
+rm -rf feeds/packages/lang/ruby
+merge_package openwrt-23.05 https://github.com/immortalwrt/packages feeds/packages/lang lang/ruby
+
 ./scripts/feeds install -a
 
 # 修复feeds错误
