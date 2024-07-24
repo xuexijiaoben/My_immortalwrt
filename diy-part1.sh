@@ -89,7 +89,7 @@ echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-pa
 echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> "feeds.conf.default"
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
 # echo "src-git ssrplus https://github.com/fw876/helloworld.git;master" >>feeds.conf.default
-
+# merge_package master https://github.com/fw876/helloworld package/app/ssrplus lua-neturl redsocks2 shadow-tls v2raya luci-app-ssr-plus
 
 # 开发版openclash
 merge_package dev https://github.com/vernesong/OpenClash package/app luci-app-openclash
