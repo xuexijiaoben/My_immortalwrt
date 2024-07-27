@@ -57,8 +57,8 @@ merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-m
 ## sed -i 's|/usr/bin/gecoosac|/etc/gecoosac/ac_linux_arm64|g' package/app/luci-app-gecoosac/luasrc/model/cbi/gecoosac.lua
 # chmod 755 package/app/luci-app-gecoosac/root/etc/init.d/gecoosac
 
-merge_package main https://github.com/lwb1978/openwrt-gecoosac package/app luci-app-gecoosac
-merge_package main https://github.com/lwb1978/openwrt-gecoosac package/app gecoosac
+merge_package v1.0 https://github.com/lwb1978/openwrt-gecoosac package/app luci-app-gecoosac
+merge_package v1.0 https://github.com/lwb1978/openwrt-gecoosac package/app gecoosac
 
 echo 'src-git alist https://github.com/sbwml/luci-app-alist.git' >>feeds.conf.default
 echo 'src-git amlogic https://github.com/ophub/luci-app-amlogic.git' >>feeds.conf.default
