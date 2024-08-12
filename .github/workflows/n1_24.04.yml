@@ -1,0 +1,326 @@
+#
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: N1
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    # inputs:
+      # ssh:
+      #   description: 'SSH connection to Actions'
+      #   required: false
+      #   default: 'false'
+  # schedule:
+    # - cron: 10 16 * * *
+
+env:
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  # CONFIG_FILE: N1_basic.config
+  # CONFIG_FILE: N1_large_istore.config
+  CONFIG_FILE: N1_medium.config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: diy-part2.sh
+  UPLOAD_BIN_DIR: false
+  UPLOAD_FIRMWARE: false
+  UPLOAD_RELEASE: true
+  TZ: Asia/Shanghai
+  OPENWRT_TAG: armsr
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
+
+    steps:
+    
+    # - name: Free Disk Space (Ubuntu)
+    #   uses: jlumbroso/free-disk-space@main
+    #   with:
+    #     # this might remove tools that are actually needed,
+    #     # if set to "true" but frees about 6 GB
+    #    tool-cache: true
+    #   # all of these default to true, but feel free to set to
+    #   # "false" if necessary for your workflow
+    #     android: true
+    #     dotnet: true
+    #     haskell: true
+    #     large-packages: true
+    #     swap-storage: true
+
+    - name: Before freeing up disk space
+      run: |
+        echo "Before freeing up disk space"
+        echo "=============================================================================="
+        df -hT
+        echo "=============================================================================="
+
+    - name: "Optimize Disk Space"
+      uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.0"
+      with:
+        operate_sudo: "True"
+        general_include: ".+"
+        general_exclude: |-
+          ^GCC$
+          ^G\+\+$
+          Clang
+          LLVM
+        docker_include: ".+"
+        docker_prune: "True"
+        docker_clean: "True"
+        apt_prune: "True"
+        apt_clean: "True"
+        homebrew_prune: "True"
+        homebrew_clean: "True"
+        npm_prune: "True"
+        npm_clean: "True"
+        os_swap: "True"
+
+    - name: Freeing up disk space
+      uses: easimon/maximize-build-space@master
+      with: 
+        root-reserve-mb: 2048
+        swap-size-mb: 1
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+
+    - name: Free up disk space complete
+      run: |
+        echo "Free up disk space complete"
+        echo "=============================================================================="
+        df -hT
+        echo "=============================================================================="
+    
+    - name: Checkout
+      uses: actions/checkout@main
+      
+    - name: Check server configuration
+      run: |
+        echo "警告⚠"
+        echo "若分配的服务器性能不足，务必及时取消，重新运行！"
+        echo "已知CPU型号（降序）：7763，8370C，8272CL，8171M，E5-2673"
+        echo "已知性能不足CPU型号：8272CL"
+        echo -e "-------------- ------------CPU信息------------------------------------------\n"
+        echo "CPU物理数量:$(cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l)"
+        echo -e "CPU核心及版本信息：$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
+        echo "-------------------------------内存信息-------------------------------------------"
+        echo "已安装内存详细信息："
+        sudo lshw -short -C memory | grep GiB
+        echo -e "\n"
+        echo "-----------------------------硬盘信息---------------------------------------------"
+        echo -e  "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l) \n"
+        echo "硬盘详情："
+        df -Th
+    
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        sudo docker image prune --all --force
+        sudo -E apt update
+        sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+        bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+        git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev \
+        libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev \
+        libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 \
+        python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo \
+        uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd clang lldb lld clangd gcc llvm
+        sudo -E apt-get -qq install libfuse-dev
+        sudo -E apt -y autoremove --purge
+        sudo -E systemctl daemon-reload
+        sudo timedatectl set-timezone "$TZ"
+        # sudo mkdir -p /workdir
+        # sudo chown $USER:$GROUPS /workdir
+        sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
+        
+    - name: Clone source code
+      id: clone
+      # working-directory: /workdir
+      working-directory: ./
+      run: |
+        df -hT $PWD
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        # 利用挂载在 /mnt/ 的 14G 额外空间:
+        # sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
+        # ln -s /mnt/openwrt/dl /workdir/openwrt/dl
+        # ln -s /mnt/openwrt/feeds /workdir/openwrt/feeds
+        # ln -s /mnt/openwrt/staging_dir ./staging_dir
+        df -h
+
+    - name: Load custom feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+    
+    - name: Update feeds
+      run: cd openwrt && ./scripts/feeds update -a
+
+    - name: Install feeds
+      run: cd openwrt && ./scripts/feeds install -a
+
+    - name: Load custom configuration
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+    
+    - name: Get architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | sed 's/=y//g'| awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>$GITHUB_ENV
+        
+    - name: cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
+        toolchain: 'true'
+        prefix: ${{ github.workspace }}/openwrt
+    
+    #- name: SSH connection to Actions
+    #  uses: P3TERX/ssh2actions@v1.0.0
+    #  if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+    #  env:
+    #    TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    #    TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: Download package
+      id: package
+      run: |
+        cd openwrt
+        echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+        # rm -rf $GITHUB_WORKSPACE/.git
+        # rm -rf $GITHUB_WORKSPACE/opt
+        df -Th
+    
+    - name: Compile the firmware
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 || make -j1 V=s
+        echo "status=success" >> ${GITHUB_OUTPUT}
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y-%m-%d_%H:%M")" >> $GITHUB_ENV
+    
+    - name: Clean up server space & Check space usage
+      if: steps.compile.outputs.status == 'success' && !cancelled()
+      run: |
+        cd openwrt/
+        # rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
+        df -hT ${PWD}
+    
+    - name: Upload bin directory
+      uses: actions/upload-artifact@main
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      with:
+        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/bin
+        # retention-days: 3 # <= 这里可以设置保留天数
+    
+    - name: Organize files
+      id: organize
+      if: steps.compile.outputs.status == 'success' && !cancelled()
+      run: |
+        cd $GITHUB_WORKSPACE/openwrt/bin/packages
+        tar -zcvf Packages.tar.gz ./*
+        cp Packages.tar.gz $GITHUB_WORKSPACE/openwrt/bin/targets/*/*
+        cd $GITHUB_WORKSPACE/openwrt/bin/targets/*/*
+        rm -rf packages
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> ${GITHUB_OUTPUT}
+        Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
+        echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
+    
+    #- name: Upload firmware directory
+    #  uses: actions/upload-artifact@main
+    #  if: env.UPLOAD_FIRMWARE == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
+    #  with:
+    #    name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+    #    path: ${{ env.FIRMWARE }}
+    #    retention-days: 3 # <= 这里可以设置保留天数
+
+    - name: Package OpenWrt Firmware
+      uses: unifreq/openwrt_packit@master
+      # uses: ophub/flippy-openwrt-actions@main
+      env:
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
+        KERNEL_REPO_URL: breakings/OpenWrt
+        KERNEL_VERSION_NAME: 5.15.131_6.1.53
+        KERNEL_AUTO_LATEST: true
+        PACKAGE_SOC: s905d
+        SCRIPT_S905D: mk_s905d_n1.sh
+        WHOAMI: huoleifeng
+        #GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload OpenWrt Firmware to Release
+      uses: ncipollo/release-action@v1.14.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name:  ${{ env.FILE_DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_${{ env.EMOJI }}
+        tag: ${{ env.OPENWRT_TAG }}
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
+        allowUpdates: true
+        #token: ${{ secrets.GH_TOKEN }}
+        body: |
+          This is OpenWrt firmware for N1_ubuntu_24.04
+          ### 📒 Firmware information
+          - 🚀 ARMv8 多功能版，集成插件多适合折腾
+          - 💻 平台架构: ${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}
+          - ⚽ 固件源码: ${{ env.REPO_URL }}
+          - 💝 源码分支: ${{ env.REPO_BRANCH }}
+          - 🌐 Default IP: 192.168.2.3
+          - 🔑 Default username: root
+          - 🔑 Default password: password
+          ### 🍻 安装与更新
+          - 用插件安装: 系统 → 晶晨宝盒 → 安装 OpenWrt → 选择型号 → 安装
+          - 用命令安装: U盘启动成功后输入命令 `openwrt-install-amlogic` 按照英文提示写入到 emmc
+          - 用插件更新: 系统 → 晶晨宝盒 → 在线下载更新 → 完整更新全系统
+          - 用命令更新: 上传固件到 `/mnt/mmcblk2p4` 目录，输入命令 `openwrt-update-amlogic` 即可更新
+          - 注意: 如非 `amlogic` 平台，请将其更改为对应平台 `rockchip` `allwinner`
+          - 部分常见问题及注意事项请参考恩山论坛F大➦[最新帖](https://www.right.com.cn/forum/thread-4076037-1-1.html)
+          ### 🧊 固件版本
+          - 固件编译前最后一次➦[主源码](${{ env.REPO_URL }})更新记录
+
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2.0.6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: 7
+        keep_minimum_runs: 3
+
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@v0.3.3
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 5
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
