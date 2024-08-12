@@ -83,9 +83,8 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E systemctl daemon-reload
         sudo timedatectl set-timezone "$TZ"
-        # sudo mkdir -p /workdir
-        # sudo chown $USER:$GROUPS /workdir
-        sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
         
     - name: Combine Disks
       uses: easimon/maximize-build-space@master
@@ -96,17 +95,11 @@ jobs:
         
     - name: Clone source code
       id: clone
-      # working-directory: /workdir
-      working-directory: ./
+      working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
-        # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        # 利用挂载在 /mnt/ 的 14G 额外空间:
-        # sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
-        # ln -s /mnt/openwrt/dl /workdir/openwrt/dl
-        # ln -s /mnt/openwrt/feeds /workdir/openwrt/feeds
-        # ln -s /mnt/openwrt/staging_dir ./staging_dir
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         df -h
 
     - name: Load custom feeds
