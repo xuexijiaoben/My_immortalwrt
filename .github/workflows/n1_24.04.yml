@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: N1_ubuntu_latest
+name: N1_ubuntu_24.04
 
 on:
   repository_dispatch:
@@ -121,7 +121,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
     
     - name: Get architecture
-      working-directory: ${{ github.workspace }}/$OPENWRT_PATH
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | sed 's/=y//g'| awk -F '_' '{print $1}')"
         echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>$GITHUB_ENV
@@ -132,7 +132,7 @@ jobs:
         ccache: 'true'
         mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         toolchain: 'true'
-        prefix: ${{ github.workspace }}/$OPENWRT_PATH
+        prefix: ${{ github.workspace }}/openwrt
     
     #- name: SSH connection to Actions
     #  uses: P3TERX/ssh2actions@v1.0.0
