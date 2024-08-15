@@ -35,14 +35,23 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   OPENWRT_TAG: armsr
-
+  ROOTFS_RELEASE: true
+  ROOTFS_TAG: ROOTFS_24.04
+  
 jobs:
   build:
     runs-on: ubuntu-24.04
     
+    outputs:
+      COMMIT_AUTHOR: ${{ steps.clone.outputs.COMMIT_AUTHOR }}
+      COMMIT_DATE: ${{ steps.clone.outputs.COMMIT_DATE }}
+      COMMIT_MESSAGE: ${{ steps.clone.outputs.COMMIT_MESSAGE }}
+      COMMIT_HASH: ${{ steps.clone.outputs.COMMIT_HASH }}
+      DEVICE_TARGET: ${{ steps.variable.outputs.DEVICE_TARGET }}
+      DEVICE_SUBTARGET: ${{ steps.variable.outputs.DEVICE_SUBTARGET }}
+    
     steps:
-
-      
+    
     - name: Check server configuration
       run: |
         echo "警告⚠"
@@ -98,6 +107,20 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+        COMMIT_AUTHOR=$(git show -s --date=short --format="作者: %an")
+        echo "COMMIT_AUTHOR=$COMMIT_AUTHOR" >> $GITHUB_ENV
+        echo "COMMIT_AUTHOR=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        COMMIT_DATE=$(git show -s --date=short --format="时间: %ci")
+        echo "COMMIT_DATE=$COMMIT_DATE" >> $GITHUB_ENV
+        echo "COMMIT_DATE=$COMMIT_DATE" >> $GITHUB_OUTPUT
+        COMMIT_MESSAGE=$(git show -s --date=short --format="内容: %s")
+        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
+        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+        COMMIT_HASH=$(git show -s --date=short --format="hash: %H")
+        echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
+        echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_OUTPUT
+        Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
+        echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
         
     - name: Load custom feeds
       run: |
@@ -183,15 +206,14 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        cd $GITHUB_WORKSPACE/openwrt/bin/packages
-        tar -zcvf Packages.tar.gz ./*
-        cp Packages.tar.gz $GITHUB_WORKSPACE/openwrt/bin/targets/*/*
-        cd $GITHUB_WORKSPACE/openwrt/bin/targets/*/*
-        rm -rf packages
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "status=success" >> ${GITHUB_OUTPUT}
-        Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
-        echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
+        cd $OPENWRT_PATH/bin/targets/*/*
+        cat sha256sums
+        cp $OPENWRT_PATH/.config build.config
+        mv -f $OPENWRT_PATH/bin/packages/*/*/*.ipk packages
+        tar -zcf Packages.tar.gz packages
+        rm -rf packages feeds.buildinfo version.buildinfo
+        echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
+
     
     #- name: Upload firmware directory
     #  uses: actions/upload-artifact@main
@@ -201,6 +223,25 @@ jobs:
     #    path: ${{ env.FIRMWARE }}
     #    retention-days: 3 # <= 这里可以设置保留天数
 
+    - name: Upload ROOTFS_dibao To Release
+      if: steps.compile.outputs.status == 'success' && env.ROOTFS_RELEASE == 'true'
+      uses: ncipollo/release-action@v1.14.0
+      with:
+          name: ${{ env.DATE }} for ${{ env.ROOTFS_TAG }} ${{ env.EMOJI }}
+          allowUpdates: true
+          tag: ${{ env.ROOTFS_TAG }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ${{ env.FIRMWARE_PATH }}/*
+          body: |
+            **This is Temporary Firmware for Armvirt 64, can't be installed directly**
+            ### 📒 固件信息
+            - 🚀 成品固件点击此处跳转➦[PLUS](https://github.com/xuexijiaoben/My_immortalwrt/releases/tag/armsr)即可下载
+            - 💻 平台架构: ${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }} (多功能临时底包)
+            - ⚽ 固件源码: ${{ env.REPO_URL }}
+            - 💝 源码分支: ${{ env.REPO_BRANCH }}
+            - 🌐 默认地址: 192.168.2.3
+            - 🔑 默认密码: password
+    
     - name: Package OpenWrt Firmware
       uses: unifreq/openwrt_packit@master
       # uses: ophub/flippy-openwrt-actions@main
@@ -220,7 +261,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name:  ${{ env.FILE_DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_${{ env.EMOJI }}
+        name:  ${{ env.FILE_DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_24.04_${{ env.EMOJI }}
         tag: ${{ env.OPENWRT_TAG }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
