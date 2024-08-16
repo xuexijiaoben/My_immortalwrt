@@ -84,8 +84,8 @@ jobs:
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
         KERNEL_REPO_URL: breakings/OpenWrt
-        KERNEL_VERSION_NAME: 6.1.103
-        KERNEL_AUTO_LATEST: no
+        KERNEL_VERSION_NAME: 6.1.104
+        KERNEL_AUTO_LATEST: false
         PACKAGE_SOC: s905d
         SCRIPT_S905D: mk_s905d_n1.sh
         WHOAMI: huoleifeng
@@ -103,7 +103,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.DATE }} for ${{ env.OPENWRT_TAG }} from_N1_haiibo ${{ env.EMOJI }}
+        name: ${{ env.DATE }} for ${{ env.OPENWRT_TAG }} from_N1_24.04 ${{ env.EMOJI }}
         allowUpdates: true
         removeArtifacts: true
         tag: ${{ env.OPENWRT_TAG }}
