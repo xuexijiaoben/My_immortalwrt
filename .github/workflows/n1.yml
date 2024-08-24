@@ -259,7 +259,9 @@ jobs:
         echo "status=success" >> ${GITHUB_OUTPUT}
         Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
         echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
-        sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt /opt/openwrt_packit
+        
+        # 扩展原始打包路径空间不足
+        sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt /opt
     
     #- name: Upload firmware directory
     #  uses: actions/upload-artifact@main
