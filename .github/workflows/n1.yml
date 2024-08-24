@@ -261,7 +261,8 @@ jobs:
         echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
         
         # 扩展原始打包路径空间不足
-        sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt /opt
+        # sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt/openwrt /opt/openwrt_packit
+        sudo ln -s $GITHUB_WORKSPACE/openwrt /opt/openwrt_packit
     
     #- name: Upload firmware directory
     #  uses: actions/upload-artifact@main
