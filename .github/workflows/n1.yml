@@ -264,7 +264,7 @@ jobs:
         mkdir openwrt_packit
         sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt/openwrt_packit /opt/openwrt_packit
         # sudo ln -s $GITHUB_WORKSPACE/openwrt /opt/openwrt_packit
-        git clone -b master https://github.com/unifreq/openwrt_packit /opt/openwrt_packit
+        sudo git clone -b master https://github.com/unifreq/openwrt_packit /opt/openwrt_packit
     
     #- name: Upload firmware directory
     #  uses: actions/upload-artifact@main
