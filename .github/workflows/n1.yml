@@ -260,8 +260,10 @@ jobs:
         Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
         echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
         # 扩展原始打包路径空间不足
-        # sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt/openwrt /opt/openwrt_packit
-        sudo ln -s $GITHUB_WORKSPACE/openwrt /opt/openwrt_packit
+        cd /home/runner/work/My_immortalwrt/My_immortalwrt
+        mkdir openwrt_packit
+        sudo ln -s /home/runner/work/My_immortalwrt/My_immortalwrt/openwrt_packit /opt/openwrt_packit
+        # sudo ln -s $GITHUB_WORKSPACE/openwrt /opt/openwrt_packit
         git clone -b master https://github.com/unifreq/openwrt_packit /opt/openwrt_packit
     
     #- name: Upload firmware directory
