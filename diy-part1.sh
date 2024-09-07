@@ -45,6 +45,7 @@ merge_package main https://github.com/kenzok8/small-package package/app luci-app
 merge_package main https://github.com/mingxiaoyu/luci-app-cloudflarespeedtest package/app applications/luci-app-cloudflarespeedtest
 merge_package master https://github.com/immortalwrt-collections/openwrt-cdnspeedtest package/app cdnspeedtest
 merge_package v5 https://github.com/sbwml/luci-app-mosdns package/app luci-app-mosdns mosdns v2dat
+merge_package main https://github.com/kenzok8/small-package package/app luci-app-fileassistant
 
 # 集客AC
 # merge_package main https://github.com/xuexijiaoben/My_immortalwrt package/app luci-app-gecoosac
