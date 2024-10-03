@@ -97,9 +97,9 @@ merge_package dev https://github.com/vernesong/OpenClash package/app luci-app-op
 # echo 'src-git openclash https://github.com/vernesong/OpenClash.git;dev' >>feeds.conf.default
 # 下载openclash内核
 mkdir -p package/app/luci-app-openclash/root/etc/openclash/core/
-wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz | tar xOvz > package/app/luci-app-openclash/root/etc/openclash/core/clash
-wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/master/premium/clash-linux-arm64-2023.08.17-13-gdcc8d87.gz | gunzip -c > package/app/luci-app-openclash/root/etc/openclash/core/clash_tun
-wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > package/app/luci-app-openclash/root/etc/openclash/core/clash_meta
+# wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz | tar xOvz > package/app/luci-app-openclash/root/etc/openclash/core/clash
+# wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/master/premium/clash-linux-arm64-2023.08.17-13-gdcc8d87.gz | gunzip -c > package/app/luci-app-openclash/root/etc/openclash/core/clash_tun
+wget -qO- https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/meta/clash-linux-arm64.tar.gz | tar xOvz > package/app/luci-app-openclash/root/etc/openclash/core/clash_meta
 wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat > package/app/luci-app-openclash/root/etc/openclash/GeoIP.dat
 wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat > package/app/luci-app-openclash/root/etc/openclash/GeoSite.dat
 chmod +x package/app/luci-app-openclash/root/etc/openclash/core/clash*
