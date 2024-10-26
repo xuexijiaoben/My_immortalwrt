@@ -108,6 +108,7 @@ chmod +x package/app/luci-app-openclash/root/etc/openclash/core/clash*
 \rm -rf feeds/packages/net/cdnspeedtest
 \rm -rf feeds/ssrplus/mosdns
 \rm -rf feeds/packages/net/mosdns
+\rm -rf feeds/packages/net/alist
 # \rm -rf feeds/luci/applications/luci-app-mosdns feeds/packages/utils/v2dat
 \rm -rf feeds/luci/applications/luci-app-passwall
 # \rm -rf feeds/luci/applications/luci-app-ddns-go
