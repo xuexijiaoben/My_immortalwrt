@@ -294,7 +294,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name:  ${{ env.FILE_DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_${{ env.EMOJI }}
+        name:  ${{ env.FILE_DATE }} for ${{ env.OPENWRT_TAG }}_from_n1_withou istore_${{ env.EMOJI }}
         tag: ${{ env.OPENWRT_TAG }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
