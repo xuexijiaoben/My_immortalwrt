@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: N1_ubuntu_24.04
+name: N1_istore_24.04
 
 on:
   repository_dispatch:
@@ -26,8 +26,8 @@ env:
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   # CONFIG_FILE: N1_basic.config
-  # CONFIG_FILE: N1_medium_istore.config
-  CONFIG_FILE: N1_medium.config
+  CONFIG_FILE: N1_medium_istore.config
+  # CONFIG_FILE: N1_medium.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -235,6 +235,7 @@ jobs:
           artifacts: ${{ env.FIRMWARE_PATH }}/*
           body: |
             **This is Temporary Firmware for Armvirt 64, can't be installed directly**
+            ** with istore **
             ### 📒 固件信息
             - 🚀 成品固件点击此处跳转➦[PLUS](https://github.com/xuexijiaoben/My_immortalwrt/releases/tag/armsr)即可下载
             - 💻 平台架构: ${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }} (多功能临时底包)
@@ -306,7 +307,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.DATE }} for ${{ env.OPENWRT_TAG }} from_N1_24.04 ${{ env.EMOJI }}
+        name: ${{ env.DATE }} for ${{ env.OPENWRT_TAG }} from_N1_istore_24.04 ${{ env.EMOJI }}
         allowUpdates: true
         removeArtifacts: true
         tag: ${{ env.OPENWRT_TAG }}
