@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: N1
+name: N1_without_istore
 
 on:
   repository_dispatch:
